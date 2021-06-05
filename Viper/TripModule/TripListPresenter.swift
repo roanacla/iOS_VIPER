@@ -1,5 +1,3 @@
-import Foundation
-
 import SwiftUI
 import Combine
 
@@ -7,8 +5,7 @@ class TripListPresenter: ObservableObject {
   private let interactor: TripListInteractor
   @Published var trips: [Trip] = []
   private var cancellables = Set<AnyCancellable>()
-  
-  
+  private let router = TripListRouter()
   
   init(interactor: TripListInteractor) {
     self.interactor = interactor
@@ -29,5 +26,14 @@ class TripListPresenter: ObservableObject {
   
   func deleteTrip(_ index: IndexSet) {
     interactor.deleteTrip(index)
+  }
+  
+  func linkBuilder<Content: View>(for trip: Trip, @ViewBuilder content: () -> Content) -> some View {
+    NavigationLink(
+      destination: router.makeDetailView(
+        for: trip,
+        model: interactor.model)) {
+      content()
+    }
   }
 }
