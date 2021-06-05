@@ -8,6 +8,8 @@ struct TripDetailView: View {
         TextField("Trip Name", text: presenter.setTripName)
           .textFieldStyle(RoundedBorderTextFieldStyle())
           .padding([.horizontal])
+        presenter.makeMapView()
+        Text(presenter.distanceLabel)
       }
       .navigationBarTitle(Text(presenter.tripName), displayMode: .inline)
       .navigationBarItems(trailing: Button("Save", action: presenter.save))
